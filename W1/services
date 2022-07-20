@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
+
+docker run -it ^
+  -e POSTGRES_USER="root" ^
+  -e POSTGRES_PASSWORD="root" ^
+  -e POSTGRES_DB="ny_taxi" ^
+  -v D:/Cttt/DE/W1/ny_taxi:/var/lib/postgresql/data ^
+  -p 5432:5432 ^
+  postgres
+
+docker run -it \
+
+
+https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet
+
+
+winpty python ingest_data.py \
+    --user=root\
+    --password=root\
+    --host=localhost\
+    --port=5432 \
+    --db=ny_taxi\
+    --table_name=yellow_taxi_trips\
+    --url=https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet
+
+winpty docker run taxi_ingest:v003 \
+    --user=root\
+    --password=root\
+    --host=localhost\
+    --port=5431 \
+    --db=ny_taxi\
+    --table_name=yellow_taxi_trips\
+    --url=https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet
